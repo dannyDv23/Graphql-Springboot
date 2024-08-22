@@ -23,7 +23,7 @@ pipeline{
         stage('Deploy'){
             steps{
                 echo 'Deploying'
-                echo "Deploying with version ${params.VERSION}"git
+                echo "Deploying with version ${params.VERSION}"
             }
         }
     }
