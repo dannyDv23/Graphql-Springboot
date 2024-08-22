@@ -1,29 +1,33 @@
 pipeline{
     agent any
-    parameters{
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
-        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+
+    tools{
+        maven 'maven-3.9.9'
     }
     stages{
-        stage('Build'){
+        stage('Build jar'){
             steps{
-                echo 'Building'
-            }
-        }
-        stage('Test'){
-            when{
-                expression{
-                    params.executeTests
+                script{
+                    echo 'Building application ...'
+                    sh 'mvn package'
                 }
             }
+        }
+        stage('Build image'){
             steps{
-                echo 'Testing'
+                script{
+                    echo 'Building docker image ...'
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh 'docker build -t danny263/maven-project:v2 .'
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh 'docker push danny263/maven-project:v2'
+                    }
+                }
             }
         }
         stage('Deploy'){
             steps{
                 echo 'Deploying'
-                echo "Deploying with version ${params.VERSION}"
             }
         }
     }
