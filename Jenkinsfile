@@ -17,7 +17,7 @@ pipeline{
             steps{
                 script{
                     echo 'Building docker image ...'
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'harbor-cridential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'docker build -t danny263/maven-project:v2 .'
                         sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh 'docker push danny263/maven-project:v2'
