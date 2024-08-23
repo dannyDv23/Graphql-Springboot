@@ -7,6 +7,9 @@ pipeline {
 
     stages {
         stage('Build jar') {
+            when {
+                expression { BRANCH_NAME == 'master' }
+            }
             steps {
                 script {
                     echo 'Building application ...'
