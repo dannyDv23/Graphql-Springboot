@@ -1,1 +1,1 @@
-# demo-graphql-Springboot
+# demo payment feature
