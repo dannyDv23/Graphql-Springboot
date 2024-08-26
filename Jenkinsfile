@@ -6,10 +6,10 @@ pipeline{
     }
     stages{
         stage('Build jar'){
+            steps{
                 when{
                     expression{ BRANCH_NAME == 'master' }
                 }
-            steps{
                 script{
                     echo 'Building application ...'
                     sh 'mvn package'
