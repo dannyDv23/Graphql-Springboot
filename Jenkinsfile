@@ -28,6 +28,11 @@ pipeline{
                 }
             }
         }
+        stage('Test'){
+            steps{
+                echo 'Testing...'
+            }
+        }
         stage('Deploy'){
             when{
                     expression{ BRANCH_NAME == 'master' }
