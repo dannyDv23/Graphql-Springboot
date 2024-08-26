@@ -1,27 +1,29 @@
-pipeline{
+pipeline {
     agent any
 
-    tools{
+    tools {
         maven 'maven-3.9.9'
     }
-    stages{
-        stage('Build jar'){
-            steps{
-                when{
-                    expression{ BRANCH_NAME == 'master' }
-                }
-                script{
+
+    stages {
+        stage('Build jar') {
+            when {
+                expression { BRANCH_NAME == 'master' }
+            }
+            steps {
+                script {
                     echo 'Building application ...'
                     sh 'mvn package'
                 }
             }
         }
-        stage('Build image'){
-            steps{
-                when{
-                    expression{ BRANCH_NAME == 'master' }
-                }
-                script{
+
+        stage('Build image') {
+            when {
+                expression { BRANCH_NAME == 'master' }
+            }
+            steps {
+                script {
                     echo 'Building docker image ...'
                     withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'docker build -t danny263/java-maven-app:v2 .'
@@ -31,16 +33,18 @@ pipeline{
                 }
             }
         }
-        stage('Test'){
-            steps{
+
+        stage('Test') {
+            steps {
                 echo 'Testing VNPAY gateway.'
             }
         }
-        stage('Deploy'){
-            when{
-                    expression{ BRANCH_NAME == 'master' }
-                }
-            steps{
+
+        stage('Deploy') {
+            when {
+                expression { BRANCH_NAME == 'master' }
+            }
+            steps {
                 echo 'Deploying...'
             }
         }
