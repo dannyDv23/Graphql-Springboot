@@ -5,10 +5,10 @@ pipeline{
         maven 'maven-3.9.9'
     }
     stages{
+        stage('Build jar'){
                 when{
                     expression{ BRANCH_NAME == 'master' }
                 }
-        stage('Build jar'){
             steps{
                 script{
                     echo 'Building application ...'
