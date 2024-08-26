@@ -33,7 +33,7 @@ pipeline{
         }
         stage('Test'){
             steps{
-                echo 'Testing...'
+                echo 'Testing VNPAY gateway.'
             }
         }
         stage('Deploy'){
